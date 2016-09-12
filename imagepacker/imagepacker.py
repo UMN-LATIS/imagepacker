@@ -114,8 +114,13 @@ class BlockPacker():
         can_grow_right = h <= self.root.h
 
         # try to keep the packing square
-        should_grow_right = can_grow_right and self.root.h >= (self.root.w + w)
-        should_grow_down = can_grow_down and self.root.w >= (self.root.h + h)
+
+        # add some fuzziness
+        fuzzedRight = abs(self.root.h - self.root.w - w);
+        fuzzedDown = abs(self.root.w - self.root.h - h);
+
+        should_grow_right = can_grow_right and fuzzedRight < 100;
+        should_grow_down = can_grow_down and fuzzedDown < 100;
 
         if should_grow_right:
             return self.grow_right(w, h)
@@ -254,7 +259,7 @@ def pack_images(image_paths, background=(0,0,0,0), format="PNG", extents=None, t
 
     powerOfTwoX = int(math.pow(2, int(math.log(packer.root.w-1)/math.log(2))+1));
     powerOfTwoY = int(math.pow(2, int(math.log(packer.root.h-1)/math.log(2))+1));
-    output_image = Image.new("RGBA", (convertedX, convertedY))
+    output_image = Image.new("RGBA", (powerOfTwoX, powerOfTwoY))
 
     uv_changes = {}
     for block in blocks:

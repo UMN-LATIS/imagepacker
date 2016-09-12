@@ -105,7 +105,7 @@ def main():
         mtl_lines.insert(0,"# Textures packed with a simple packer")
 
     new_mtl_lines = []
-    outname = output_name+"_full.png"
+    outname = output_name+"_full.jpg"
     for line in mtl_lines:
         if line.startswith("newmtl"):
             name = line[7:]
@@ -311,7 +311,7 @@ def main():
         new_obj.write("\n".join(new_obj_lines))
     with open(output_name+".mtl", "w") as new_mtl:
         new_mtl.write("\n".join(new_mtl_lines))
-    output_image.save(outname, format="PNG")
+    output_image.save(outname, format="jpeg")
 
     print("\nRemember to convert the final packed texture into a JPEG if you do not need the transparency.")
 
