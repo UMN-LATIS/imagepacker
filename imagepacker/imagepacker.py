@@ -252,7 +252,9 @@ def pack_images(image_paths, background=(0,0,0,0), format="PNG", extents=None, t
     packer = BlockPacker()
     packer.fit(blocks)
 
-    output_image = Image.new("RGBA", (packer.root.w, packer.root.h))
+    powerOfTwoX = int(math.pow(2, int(math.log(packer.root.w-1)/math.log(2))+1));
+    powerOfTwoY = int(math.pow(2, int(math.log(packer.root.h-1)/math.log(2))+1));
+    output_image = Image.new("RGBA", (convertedX, convertedY))
 
     uv_changes = {}
     for block in blocks:
